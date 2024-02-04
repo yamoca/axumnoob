@@ -1,6 +1,4 @@
-use axum::body::Body;
 use axum::response::Html;
-use axum::response::Response;
 use axum::routing::get;
 use axum::Router;
 
@@ -9,8 +7,8 @@ use axum::Router;
 #[tokio::main]
 async fn main() {
     let app = Router::new()
-        .route("/", get(handler))
-        .route("/index.js", get(js));
+        .route("/", get(root))
+        .route("/flaschards", get(send_flaschard));
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await
@@ -24,6 +22,10 @@ async fn main() {
 
 
 //serves index.html
-async fn handler() -> Html<&'static str> {
+async fn root () -> Html<&'static str> {
     Html(std::include_str!("index.html"))
+}
+
+async fn send_flaschard() {
+
 }
